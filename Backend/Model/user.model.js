@@ -28,7 +28,9 @@ const userSchema = new mongoose.Schema({
     }
 })
 userSchema.methods.genrateToken = function () {
-    const token = jwt.sign({ id: this._id }, "hbdhfshcdsbvfhgsvbdghfvhgsdv")
+    const token = jwt.sign({ id: this._id }, "hbdhfshcdsbvfhgsvbdghfvhgsdv", {
+        expiresIn: '24h'
+    })
     return token
 }
 userSchema.methods.comparePassword = async function (password) {

@@ -1,6 +1,8 @@
 import userModel from "../Model/user.model.js";
 import { createUser } from "../Services/user.services.js";
 import { validationResult } from "express-validator";
+import blacklist from "../Model/blacklistToken.model.js";
+import jwt from 'jsonwebtoken'
 export const Rigster = async (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -54,7 +56,7 @@ export const Login = async (req, res, next) => {
 
         // Generate token
         const token = user.genrateToken();
-
+        res.cookie('token', token)
         return res.status(200).json({
             token,
             user,
@@ -66,3 +68,16 @@ export const Login = async (req, res, next) => {
         });
     }
 };
+
+export const profile = async (req, res, next) => {
+    return res.status(200).json(req.user)
+}
+
+export const logout = async (req, res, next) => {
+    res.clearCookie("token");
+    const token = req.cookies.token || req.headers.authorization.split(' ')[1];
+
+    await blacklist.create({ token });
+
+    res.status(200).json({ message: "logout" })
+}
