@@ -2,7 +2,7 @@ import userModel from "../Model/user.model.js";
 import { createUser } from "../Services/user.services.js";
 import { validationResult } from "express-validator";
 import blacklist from "../Model/blacklistToken.model.js";
-import jwt from 'jsonwebtoken'
+
 export const Rigster = async (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {

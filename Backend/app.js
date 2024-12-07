@@ -2,6 +2,7 @@ import express from 'express'
 import cookieParser from 'cookie-parser';
 import cors from 'cors'
 import userroute from './Routes/user.routes.js'
+import captainroute from './Routes/user.routes.js'
 const app = express();
 
 // Middleware
@@ -13,8 +14,6 @@ app.use(express.urlencoded({
 app.use(cookieParser())
 
 // Routes
-app.get('/', (req, res) => {
-    res.send("hello world");
-});
-app.use('/user', userroute)
+app.use('/user', userroute);
+app.use('/captain', captainroute);
 export default app;
