@@ -1,26 +1,26 @@
-import Captain from "../Model/captain.model.js";
-
-
+import Captain from "../Model/captain.model.js"
 export const createCaptain = async ({ firstname, lastname, email, password, color, plate, capacity, vechileType }) => {
-
     if (!firstname || !lastname || !email || !password || !color || !plate || !capacity || !vechileType) {
-        throw new Error("All field are required")
+        throw new Error("All fields are required");
     }
-
-    await Captain.create({
+    const cap = await Captain.findOne({ email });
+    if (cap) {
+        throw new Error("User already exists with this email");
+    }
+    const captain = await Captain.create({
         fullname: {
             firstname,
             lastname
         },
         email,
-        password,
-
-
+        Password: password, // Correct field name here
         vechile: {
             color,
             plate,
             capacity,
             vechileType
-        },
-    })
-}
+        }
+    });
+    console.log(captain);
+    return captain;
+};
