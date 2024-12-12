@@ -4,6 +4,10 @@ import { validationResult } from "express-validator";
 import blacklist from "../Model/blacklistToken.model.js";
 
 export const Rigster = async (req, res, next) => {
+    console.log("req is comming")
+    const { fullname, email, Password } = req.body
+    console.log(req.body)
+    console.log(fullname, email, Password)
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).json({
@@ -11,7 +15,6 @@ export const Rigster = async (req, res, next) => {
         })
     }
 
-    const { fullname, email, Password } = req.body
 
     const hashPassword = await userModel.hashpassword(Password);
     const user = await createUser({ firstname: fullname.firstname, lastname: fullname.lastname, email, Password: hashPassword })
@@ -23,6 +26,8 @@ export const Rigster = async (req, res, next) => {
 
 export const Login = async (req, res, next) => {
     try {
+        console.log("req is comming")
+        console.log(req.body)
         const errors = validationResult(req);
 
         if (!errors.isEmpty()) {
@@ -32,7 +37,7 @@ export const Login = async (req, res, next) => {
         }
 
         const { email, Password } = req.body;
-
+        console.log(email, Password)
         // Await the query to get the resolved user document
         const user = await userModel.findOne({ email }).select("+Password");
 
