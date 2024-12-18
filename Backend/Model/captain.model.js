@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
-import e from 'express';
+
 
 const CaptainSchema = new mongoose.Schema({
     fullname: {
@@ -43,6 +43,8 @@ CaptainSchema.statics.hashPassword = async function (password) {
 CaptainSchema.methods.generateToken = function () {
     return jwt.sign({ id: this._id }, 'secret_key', { expiresIn: '24h' });
 };
-
+CaptainSchema.methods.comparePassword = async function (password) {
+    return await bcrypt.compare(password, this.Password)
+}
 const Captain = mongoose.model('Captain', CaptainSchema);
 export default Captain;

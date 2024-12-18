@@ -1,20 +1,17 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 function UserSignup() {
+  const navigate = useNavigate();
   const [input, setInput] = useState({
-    fullname: {
-      firstname: "",
-      lastname: "",
-    },
+    fullname: { firstname: "", lastname: "" },
     email: "",
     password: "",
   });
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    console.log("User Details:", input);
-
     try {
       const response = await axios.post(
         "http://localhost:4000/user/register",
@@ -32,9 +29,12 @@ function UserSignup() {
           },
         }
       );
+      if (response) {
+        navigate("/Userlogin");
+      }
       console.log("Signup Successful:", response);
     } catch (error) {
-      console.error("Error occurred during signup:", error.message);
+      console.error("Error during signup:", error);
     }
   };
 
@@ -56,114 +56,122 @@ function UserSignup() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen p-6 lg:flex-row bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
-      {/* Left Image Section */}
-      <div className="flex justify-center w-full mb-8 lg:w-1/2 lg:mb-0">
-        <img
-          src="https://www.uber-assets.com/image/upload/f_auto,q_auto:eco,c_fill,h_576,w_576/v1684887108/assets/76/baf1ea-385a-408c-846b-59211086196c/original/u4b-square.png"
-          alt="Sign Up"
-          className="max-w-md transition-transform duration-300 rounded-lg shadow-xl hover:scale-105"
-        />
-      </div>
-
-      {/* Right Form Section */}
-      <div className="flex justify-center w-full lg:w-1/2">
-        <form
-          className="w-full max-w-md p-8 space-y-6 bg-white shadow-lg rounded-xl"
-          onSubmit={submitHandler}
-        >
-          <h2 className="text-3xl font-bold text-center text-gray-800">
-            Create Your Account
-          </h2>
-          <p className="text-sm text-center text-gray-500">
-            Fill in the details below to start your journey.
+    <div className="flex items-center justify-center min-h-screen bg-black">
+      <div className="flex flex-col w-full max-w-screen-xl lg:flex-row">
+        {/* Left Text Section */}
+        <div className="flex flex-col items-start justify-center px-8 py-16 text-white lg:w-1/2">
+          <h1 className="mb-4 text-5xl font-extrabold">Join Our Community</h1>
+          <p className="mb-6 text-lg">
+            Sign up to access your personalized dashboard and explore all our
+            features. Join us and make your journey seamless!
           </p>
-
-          <div>
-            <label
-              htmlFor="first"
-              className="block text-sm font-medium text-gray-700"
-            >
-              First Name
-            </label>
-            <input
-              type="text"
-              id="first"
-              value={input.fullname.firstname}
-              onChange={inputHandler}
-              placeholder="Enter Your First Name"
-              className="w-full p-3 mt-1 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-            />
-          </div>
-
-          <div>
-            <label
-              htmlFor="lastname"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Last Name
-            </label>
-            <input
-              type="text"
-              id="lastname"
-              value={input.fullname.lastname}
-              onChange={inputHandler}
-              placeholder="Enter Your Last Name"
-              className="w-full p-3 mt-1 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-            />
-          </div>
-
-          <div>
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Email
-            </label>
-            <input
-              type="email"
-              id="email"
-              value={input.email}
-              onChange={inputHandler}
-              placeholder="Enter Your Email"
-              className="w-full p-3 mt-1 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-            />
-          </div>
-
-          <div>
-            <label
-              htmlFor="password"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Password
-            </label>
-            <input
-              type="password"
-              id="password"
-              value={input.password}
-              onChange={inputHandler}
-              placeholder="Enter Your Password"
-              className="w-full p-3 mt-1 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-            />
-          </div>
-
-          <button
-            type="submit"
-            className="w-full py-3 text-white transition duration-300 transform bg-indigo-600 rounded-lg shadow-lg hover:bg-indigo-700 hover:shadow-xl hover:-translate-y-1"
-          >
-            Sign Up
-          </button>
-
-          <p className="text-sm text-center text-gray-600">
-            Already have an account?{" "}
-            <Link
-              to="/Userlogin"
-              className="text-indigo-500 hover:underline hover:text-indigo-700"
-            >
-              Log in
-            </Link>
+          <p className="mb-4 text-sm">
+            Experience a platform designed with the latest technology to make
+            your interaction easy, fast, and intuitive.
           </p>
-        </form>
+        </div>
+
+        {/* Right Form Section */}
+        <div className="px-8 py-16 lg:w-1/2">
+          <div className="p-10 rounded-lg shadow-2xl bg-gradient-to-r from-black to-gray-900">
+            <h1 className="mb-6 text-4xl font-extrabold text-center text-white">
+              Create Your Account
+            </h1>
+            <p className="mb-10 text-lg text-center text-gray-300">
+              Sign up to start your journey with us and enjoy all the amazing
+              features.
+            </p>
+
+            <form className="space-y-6" onSubmit={submitHandler}>
+              <div>
+                <label
+                  htmlFor="first"
+                  className="block text-sm font-medium text-white"
+                >
+                  First Name
+                </label>
+                <input
+                  type="text"
+                  id="first"
+                  value={input.fullname.firstname}
+                  onChange={inputHandler}
+                  placeholder="Enter your first name"
+                  className="w-full p-4 mt-2 text-white bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-white"
+                />
+              </div>
+
+              <div>
+                <label
+                  htmlFor="lastname"
+                  className="block text-sm font-medium text-white"
+                >
+                  Last Name
+                </label>
+                <input
+                  type="text"
+                  id="lastname"
+                  value={input.fullname.lastname}
+                  onChange={inputHandler}
+                  placeholder="Enter your last name"
+                  className="w-full p-4 mt-2 text-white bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-white"
+                />
+              </div>
+
+              <div>
+                <label
+                  htmlFor="email"
+                  className="block text-sm font-medium text-white"
+                >
+                  Email
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  value={input.email}
+                  onChange={inputHandler}
+                  placeholder="Enter your email"
+                  className="w-full p-4 mt-2 text-white bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-white"
+                />
+              </div>
+
+              <div>
+                <label
+                  htmlFor="password"
+                  className="block text-sm font-medium text-white"
+                >
+                  Password
+                </label>
+                <input
+                  type="password"
+                  id="password"
+                  value={input.password}
+                  onChange={inputHandler}
+                  placeholder="Enter your password"
+                  className="w-full p-4 mt-2 text-white bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-white"
+                />
+              </div>
+
+              <button
+                type="submit"
+                className="w-full py-4 mt-4 font-semibold text-black transition-all duration-300 bg-white rounded-lg shadow-lg hover:bg-gray-200"
+              >
+                Sign Up
+              </button>
+            </form>
+
+            <div className="mt-6 text-center">
+              <p className="text-sm text-gray-400">
+                Already have an account?{" "}
+                <Link
+                  to="/Userlogin"
+                  className="font-semibold text-white hover:underline"
+                >
+                  Login
+                </Link>
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

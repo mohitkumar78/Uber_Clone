@@ -26,7 +26,7 @@ export const Rigster = async (req, res, next) => {
 
 export const Login = async (req, res, next) => {
     try {
-        console.log("req is comming")
+        console.log("login req is comming")
         console.log(req.body)
         const errors = validationResult(req);
 
@@ -42,7 +42,7 @@ export const Login = async (req, res, next) => {
         const user = await userModel.findOne({ email }).select("+Password");
 
         // If no user is found
-        console.log(user)
+        console.log("user is", user)
         if (!user) {
             return res.status(401).json({
                 message: "Invalid email or password",

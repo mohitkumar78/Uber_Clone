@@ -31,3 +31,35 @@ export const register = async (req, res) => {
 };
 
 
+export const login = async (req, res) => {
+    const { email, password } = req.body
+
+    if (!email || !password) {
+        return res.status(400).json({
+            message: "All filed are required"
+        })
+    }
+
+    const cap = await Captain.findOne({ email: email })
+
+    if (!cap) {
+        return res.status(400).json({
+            message: "Invaild user name password"
+        })
+    }
+
+    const isMatch = await cap.comparePassword(password)
+    if (!isMatch) {
+        return res.status(400).json({
+            message: "Incorrect Password"
+        })
+    }
+
+    const token = await cap.generateToken();
+    res.cookie("token", token)
+
+    return res.status(200).json({
+        cap, token
+    })
+
+}

@@ -5,6 +5,8 @@ import UserSignup from "./Pages/UserSignup";
 import Userlogin from "./Pages/Userlogin";
 import CapatinLogin from "./Pages/CapatinLogin";
 import CaptainSignup from "./Pages/CaptainSignup";
+import Captain from "./Pages/Captain";
+
 import "./App.css";
 const routes = createBrowserRouter([
   {
@@ -18,6 +20,10 @@ const routes = createBrowserRouter([
   {
     path: "/Userlogin",
     element: <Userlogin />,
+  },
+  {
+    path: "/captain",
+    element: <Captain />,
   },
   {
     path: "/captain/capatinlogin",
