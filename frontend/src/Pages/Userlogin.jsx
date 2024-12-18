@@ -45,8 +45,6 @@ function Userlogin() {
     });
   };
 
-  // Animation
-
   return (
     <div className="flex items-center justify-center min-h-screen bg-black">
       <div className="flex flex-col w-full max-w-screen-xl lg:flex-row">
