@@ -1,15 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-
+import { useDispatch } from "react-redux";
+import { setuser } from "../Store/userSlice";
+import { useNavigate } from "react-router-dom";
 function Userlogin() {
+  const navigate = useNavigate();
   const [input, setInput] = useState({
     email: "",
     Password: "",
   });
-
+  const dispatch = useDispatch();
   const submitHandler = async (e) => {
     e.preventDefault();
+
     try {
       const res = await axios.post(
         "http://localhost:4000/user/login",
@@ -23,6 +27,11 @@ function Userlogin() {
           },
         }
       );
+      console.log(res);
+      if (res) {
+        dispatch(setuser({ user: res.data.user, token: user.res.token }));
+        navigate("/home");
+      }
       console.log(res);
     } catch (error) {
       console.error("Error:", error);
